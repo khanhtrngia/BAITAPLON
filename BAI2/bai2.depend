@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1712127947 source:d:\download\bai2\main.cpp
+	<iostream>
+	<SDL.h>
+
