@@ -1,0 +1,28 @@
+# depslib dependency file v1.0
+1708754949 source:d:\download\lon\main.cpp
+	<iostream>
+	<SDL.h>
+	<SDL_image.h>
+
+1708753143 source:d:\download\lon\anh.cpp
+
+1708754940 source:d:\download\lon\main2.cpp
+
+1712127034 source:d:\download\baitaplonchuan\main.cpp
+	<iostream>
+	<SDL.h>
+	<SDL_image.h>
+	"graphics.h"
+	"defs.h"
+
+1708755612 d:\download\baitaplonchuan\graphics.h
+	<SDL.h>
+	<SDL_image.h>
+	"defs.h"
+
+1708755681 d:\download\baitaplonchuan\defs.h
+
+1712126391 source:d:\download\baitaplonchuan\demo.cpp
+	<iostream>
+	<SDL.h>
+
