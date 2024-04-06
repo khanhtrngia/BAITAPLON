@@ -3,15 +3,16 @@
 
 using namespace std;
 
-const int SCREEN_WIDTH = 800;
-const int SCREEN_HEIGHT = 600;
-const char* WINDOW_TITLE = "Hello World!";
+const int SCREEN_WIDTH = 1000;
+const int SCREEN_HEIGHT = 800;
+const char* WINDOW_TITLE = "Khanh";
 
 void logErrorAndExit(const char* msg, const char* error)
 {
     SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "%s: %s", msg, error);
     SDL_Quit();
 }
+
 
 SDL_Window* initSDL(int SCREEN_WIDTH, int SCREEN_HEIGHT, const char* WINDOW_TITLE)
 {
@@ -60,17 +61,20 @@ void waitUntilKeyPressed()
 }
 
 void drawSomething(SDL_Window* window, SDL_Renderer* renderer) {
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);   // white
+    SDL_SetRenderDrawColor(renderer, 50, 100, 0, 100);   //
     SDL_RenderDrawPoint(renderer, SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);   // red
+    SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);   //
     SDL_RenderDrawLine(renderer, 100, 100, 200, 200);
-    SDL_Rect filled_rect;
-    filled_rect.x = SCREEN_WIDTH - 400;
-    filled_rect.y = SCREEN_HEIGHT - 150;
-    filled_rect.w = 320;
-    filled_rect.h = 100;
-    SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255); // green
-    SDL_RenderFillRect(renderer, &filled_rect);
+    SDL_Rect rect;
+    rect.x = SCREEN_WIDTH - 400;
+    rect.y = SCREEN_HEIGHT - 150;
+    rect.w = 320;
+    rect.h = 100;
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255); //
+    SDL_RenderFillRect(renderer, &rect);
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    const SDL_Point points[]={{500, 500}, {200, 30}, {300, 100}, {500, 500}};
+    SDL_RenderDrawLines(renderer, points, 4);
 }
 
 int main(int argc, char* argv[])
