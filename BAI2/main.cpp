@@ -1,5 +1,6 @@
 #include <iostream>
 #include <SDL.h>
+#include <SDL_image.h>
 
 using namespace std;
 
@@ -23,6 +24,9 @@ SDL_Window* initSDL(int SCREEN_WIDTH, int SCREEN_HEIGHT, const char* WINDOW_TITL
     //window = SDL_CreateWindow(WINDOW_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_FULLSCREEN_DESKTOP);
     if (window == nullptr) logErrorAndExit("CreateWindow", SDL_GetError());
 
+    if (!IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG))
+        logErrorAndExit( "SDL_image error:", IMG_GetError());
+
     return window;
 }
 
@@ -43,6 +47,8 @@ SDL_Renderer* createRenderer(SDL_Window* window)
 
 void quitSDL(SDL_Window* window, SDL_Renderer* renderer)
 {
+    IMG_Quit();
+
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
@@ -59,40 +65,50 @@ void waitUntilKeyPressed()
     }
 }
 
-void drawSomething(SDL_Window* window, SDL_Renderer* renderer) {
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);   // white
-    SDL_RenderDrawPoint(renderer, SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);   // red
-    SDL_RenderDrawLine(renderer, 100, 100, 200, 200);
-    SDL_Rect filled_rect;
-    filled_rect.x = SCREEN_WIDTH - 400;
-    filled_rect.y = SCREEN_HEIGHT - 150;
-    filled_rect.w = 320;
-    filled_rect.h = 100;
-    SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255); // green
-    SDL_RenderFillRect(renderer, &filled_rect);
+void renderTexture(SDL_Texture *texture, int x, int y, SDL_Renderer* renderer)
+{
+	SDL_Rect dest;
+
+	dest.x = x;
+	dest.y = y;
+	SDL_QueryTexture(texture, NULL, NULL, &dest.w, &dest.h);
+
+	SDL_RenderCopy(renderer, texture, NULL, &dest);
 }
 
-int main(int argc, char* argv[])
+SDL_Texture *loadTexture(const char *filename, SDL_Renderer* renderer)
 {
-    //Khởi tạo môi trường đồ họa
+	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Loading %s", filename);
+
+	SDL_Texture *texture = IMG_LoadTexture(renderer, filename);
+	if (texture == NULL)
+        SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Load texture %s", IMG_GetError());
+
+	return texture;
+}
+
+int main(int argc, char *argv[])
+{
     SDL_Window* window = initSDL(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
     SDL_Renderer* renderer = createRenderer(window);
 
-    //Xóa màn hình
-    SDL_RenderClear(renderer);
+    SDL_Texture* background = loadTexture("bikiniBottom.jpg", renderer);
+    SDL_RenderCopy( renderer, background, NULL, NULL);
 
-    //Vẽ gì đó
-    drawSomething(window, renderer);
-
-    //Hiện bản vẽ ra màn hình
-    //Khi chạy tại môi trường bình thường
-    SDL_RenderPresent(renderer);
-    //Khi chạy trong máy ảo (ví dụ phòng máy ở trường)
-    //SDL_UpdateWindowSurface(window);
-
-    //Đợi phím bất kỳ trước khi đóng môi trường đồ họa và kết thúc chương trình
+    SDL_RenderPresent( renderer );
     waitUntilKeyPressed();
+
+    SDL_Texture* spongeBob = loadTexture("Spongebob.png", renderer);
+    renderTexture(spongeBob, 200, 200, renderer);
+
+    SDL_RenderPresent( renderer );
+    waitUntilKeyPressed();
+
+    SDL_DestroyTexture( spongeBob );
+    spongeBob = NULL;
+    SDL_DestroyTexture( background );
+    background = NULL;
+
     quitSDL(window, renderer);
     return 0;
 }

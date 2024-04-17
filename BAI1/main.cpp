@@ -3,9 +3,9 @@
 
 using namespace std;
 
-const int SCREEN_WIDTH = 1000;
-const int SCREEN_HEIGHT = 800;
-const char* WINDOW_TITLE = "Khanh";
+const int SCREEN_WIDTH = 800;
+const int SCREEN_HEIGHT = 500;
+const char* WINDOW_TITLE = "bang ve";
 
 void logErrorAndExit(const char* msg, const char* error)
 {
