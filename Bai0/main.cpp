@@ -5,7 +5,7 @@
 using namespace std;
 
 int screen_width=800;
-int screen_height=600;
+int screen_height=500;
 char* screen_title="bang ve";
 
 int main(int argc, char *argv[])
@@ -14,8 +14,6 @@ int main(int argc, char *argv[])
     SDL_Renderer* renderer = CreateRenderer(window);
 
     SDL_RenderClear(renderer);
-
-
 
     return 0;
 }
