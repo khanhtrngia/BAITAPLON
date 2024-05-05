@@ -1,7 +1,3 @@
-/*This source code copyrighted by Lazy Foo' Productions 2004-2024
-and may not be redistributed without written permission.*/
-
-//Using SDL, standard IO, and strings
 #include <SDL.h>
 #include <SDL_image.h>
 #include <bits/stdc++.h>
@@ -59,7 +55,7 @@ bool init()
 	else
 	{
 		//Create window
-		gWindow = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
+		gWindow = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
 		if( gWindow == NULL )
 		{
 			printf( "Window could not be created! SDL Error: %s\n", SDL_GetError() );
@@ -123,6 +119,7 @@ bool loadMedia()
 	return success;
 }
 
+
 void close()
 {
 	//Deallocate surfaces
@@ -139,6 +136,7 @@ void close()
 	//Quit SDL subsystems
 	SDL_Quit();
 }
+
 
 SDL_Surface* loadSurface( std::string path )
 {
