@@ -1,18 +1,23 @@
+/*This source code copyrighted by Lazy Foo' Productions 2004-2024
+and may not be redistributed without written permission.*/
+
+//Using SDL and standard IO
 #include <SDL.h>
-#include <stdio.h>
+#include <SDL_image.h>
+#include <bits/stdc++.h>
 
 //Screen dimension constants
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
-////Starts up SDL and creates window
-//bool init();
-//
-////Loads media
-//bool loadMedia();
-//
-////Frees media and shuts down SDL
-//void close();
+//Starts up SDL and creates window
+bool init();
+
+//Loads media
+bool loadMedia();
+
+//Frees media and shuts down SDL
+void close();
 
 //The window we'll be rendering to
 SDL_Window* gWindow = NULL;
@@ -21,7 +26,7 @@ SDL_Window* gWindow = NULL;
 SDL_Surface* gScreenSurface = NULL;
 
 //The image we will load and show on the screen
-SDL_Surface* gHelloWorld = NULL;
+SDL_Surface* gXOut = NULL;
 
 bool init()
 {
@@ -37,7 +42,7 @@ bool init()
 	else
 	{
 		//Create window
-		gWindow = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
+		gWindow = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
 		if( gWindow == NULL )
 		{
 			printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
@@ -59,10 +64,10 @@ bool loadMedia()
 	bool success = true;
 
 	//Load splash image
-	gHelloWorld = SDL_LoadBMP( "hello_world.bmp" );
-	if( gHelloWorld == NULL )
+	gXOut = SDL_LoadBMP( "x.bmp" );
+	if( gXOut == NULL )
 	{
-		printf( "Unable to load image %s! SDL Error: %s\n", "hello_world.bmp", SDL_GetError() );
+		printf( "Unable to load image %s! SDL Error: %s\n", "x.bmp", SDL_GetError() );
 		success = false;
 	}
 
@@ -72,8 +77,8 @@ bool loadMedia()
 void close()
 {
 	//Deallocate surface
-	SDL_FreeSurface( gHelloWorld );
-	gHelloWorld = NULL;
+	SDL_FreeSurface( gXOut );
+	gXOut = NULL;
 
 	//Destroy window
 	SDL_DestroyWindow( gWindow );
@@ -99,23 +104,31 @@ int main( int argc, char* args[] )
 		}
 		else
 		{
+			//Main loop flag
+			bool quit = false;
 
+			//Event handler
+			SDL_Event e;
 
-            //Hack to get window to stay up
-            SDL_Event e;
-            bool quit = false;
-            while( quit == false )
-            {
-                while( SDL_PollEvent( &e ) )
-                {
-                    if( e.type == SDL_QUIT ) quit = true;
-                }
-                //Apply the image
-			SDL_BlitSurface( gHelloWorld, NULL, gScreenSurface, NULL );
+			//While application is running
+			while( !quit )
+			{
+				//Handle events on queue
+				while( SDL_PollEvent( &e ) != 0 )
+				{
+					//User requests quit
+					if( e.type == SDL_QUIT )
+					{
+						quit = true;
+					}
+				}
 
-			//Update the surface
-			SDL_UpdateWindowSurface( gWindow );
-            }
+				//Apply the image
+				SDL_BlitSurface( gXOut, NULL, gScreenSurface, NULL );
+
+				//Update the surface
+				SDL_UpdateWindowSurface( gWindow );
+			}
 		}
 	}
 
