@@ -29,17 +29,20 @@ void close();
 //Loads individual image
 SDL_Surface* loadSurface( std::string path );
 
+
+
 //The window we'll be rendering to
 SDL_Window* gWindow = NULL;
 
 //The surface contained by the window
 SDL_Surface* gScreenSurface = NULL;
 
+//Current displayed image
+SDL_Surface* gCurrentSurface = NULL;
+
 //The images that correspond to a keypress
 SDL_Surface* gKeyPressSurfaces[ KEY_PRESS_SURFACE_TOTAL ];
 
-//Current displayed image
-SDL_Surface* gCurrentSurface = NULL;
 
 bool init()
 {
@@ -70,6 +73,19 @@ bool init()
 
 	return success;
 }
+
+SDL_Surface* loadSurface( std::string path )
+{
+	//Load image at specified path
+	SDL_Surface* loadedSurface = SDL_LoadBMP( path.c_str() );
+	if( loadedSurface == NULL )
+	{
+		printf( "Unable to load image %s! SDL Error: %s\n", path.c_str(), SDL_GetError() );
+	}
+
+	return loadedSurface;
+}
+
 
 bool loadMedia()
 {
@@ -138,18 +154,6 @@ void close()
 }
 
 
-SDL_Surface* loadSurface( std::string path )
-{
-	//Load image at specified path
-	SDL_Surface* loadedSurface = SDL_LoadBMP( path.c_str() );
-	if( loadedSurface == NULL )
-	{
-		printf( "Unable to load image %s! SDL Error: %s\n", path.c_str(), SDL_GetError() );
-	}
-
-	return loadedSurface;
-}
-
 
 int main( int argc, char* args[] )
 {
@@ -180,7 +184,7 @@ int main( int argc, char* args[] )
 			while( !quit )
 			{
 				//Handle events on queue
-				while( SDL_PollEvent( &e ) != 0 )
+				while( SDL_PollEvent( &e ) )
 				{
 					//User requests quit
 					if( e.type == SDL_QUIT )
