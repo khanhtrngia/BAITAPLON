@@ -184,7 +184,7 @@ int main( int argc, char* args[] )
 
 				//Draw vertical line of yellow dots
 				SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0x00, 0xFF );
-				for( int i = 0; i < SCREEN_HEIGHT; i += 4 )
+				for( int i = 0; i < SCREEN_HEIGHT; i += 2 )
 				{
 					SDL_RenderDrawPoint( gRenderer, SCREEN_WIDTH / 2, i );
 				}
