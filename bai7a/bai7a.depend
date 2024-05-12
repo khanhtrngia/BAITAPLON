@@ -1,0 +1,18 @@
+# depslib dependency file v1.0
+1715530142 source:c:\users\khanh\documents\github\baitaplon\bai7a\main.cpp
+	<iostream>
+	<SDL.h>
+	<SDL_image.h>
+	"graphics.h"
+	"defs.h"
+	"game.h"
+
+1715530225 c:\users\khanh\documents\github\baitaplon\bai7a\graphics.h
+	<SDL.h>
+	<SDL_image.h>
+	"defs.h"
+
+1715530180 c:\users\khanh\documents\github\baitaplon\bai7a\defs.h
+
+1715531996 c:\users\khanh\documents\github\baitaplon\bai7a\game.h
+

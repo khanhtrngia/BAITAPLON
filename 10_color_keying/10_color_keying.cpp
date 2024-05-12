@@ -22,13 +22,27 @@ SDL_Renderer* gRenderer = NULL;
 
 //Texture wrapper class
 class LTexture
-{
+{	private:
+		//The actual hardware texture
+		SDL_Texture* mTexture;
+
+		//Image dimensions
+		int mWidth;
+		int mHeight;
 	public:
-		//Initializes variables
-		LTexture();
+		LTexture()
+		{
+            mTexture = NULL;
+            mWidth = 0;
+            mHeight = 0;
+        };
 
 		//Deallocates memory
-		~LTexture();
+		~LTexture()
+        {
+            //Deallocate
+            free();
+        }
 
 		//Loads image at specified path
 		bool loadFromFile( std::string path );
@@ -43,27 +57,8 @@ class LTexture
 		int getWidth();
 		int getHeight();
 
-	private:
-		//The actual hardware texture
-		SDL_Texture* mTexture;
 
-		//Image dimensions
-		int mWidth;
-		int mHeight;
 };
-LTexture::LTexture()
-{
-	//Initialize
-	mTexture = NULL;
-	mWidth = 0;
-	mHeight = 0;
-}
-
-LTexture::~LTexture()
-{
-	//Deallocate
-	free();
-}
 
 bool LTexture::loadFromFile( std::string path )
 {
@@ -82,7 +77,9 @@ bool LTexture::loadFromFile( std::string path )
 	else
 	{
 		//Color key image
-		SDL_SetColorKey( loadedSurface, SDL_TRUE, SDL_MapRGB( loadedSurface->format, 0, 0xFF, 0xFF ) );
+		SDL_SetColorKey( loadedSurface, SDL_TRUE, SDL_MapRGB( loadedSurface->format, 0, 255, 255));
+        SDL_SetColorKey( loadedSurface, SDL_TRUE, SDL_MapRGB( loadedSurface->format, 0, 255, 0 ) );
+
 
 		//Create texture from surface pixels
         newTexture = SDL_CreateTextureFromSurface( gRenderer, loadedSurface );
