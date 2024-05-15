@@ -13,3 +13,10 @@
 
 1713335772 c:\users\khanh\documents\github\baitaplon\bai4\defs.h
 
+1713335691 source:c:\users\khanh\documents\github\baitaplon\bai4\main4.cpp
+	<iostream>
+	<SDL.h>
+	<SDL_image.h>
+	"graphics.h"
+	"defs.h"
+
