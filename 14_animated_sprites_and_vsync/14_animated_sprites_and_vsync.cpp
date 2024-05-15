@@ -26,6 +26,12 @@ class LTexture
 		//Set color modulation
 		void setColor( Uint8 red, Uint8 green, Uint8 blue );
 
+		//Set blending
+		void setBlendMode( SDL_BlendMode blending );
+
+		//Set alpha modulation
+		void setAlpha( Uint8 alpha );
+
 		//Renders texture at given point
 		void render( int x, int y, SDL_Rect* clip = NULL );
 
@@ -57,8 +63,10 @@ SDL_Window* gWindow = NULL;
 //The window renderer
 SDL_Renderer* gRenderer = NULL;
 
-//Scene texture
-LTexture gModulatedTexture;
+//Walking animation
+const int WALKING_ANIMATION_FRAMES = 4;
+SDL_Rect gSpriteClips[ WALKING_ANIMATION_FRAMES ];
+LTexture gSpriteSheetTexture;
 
 
 LTexture::LTexture()
@@ -130,8 +138,20 @@ void LTexture::free()
 
 void LTexture::setColor( Uint8 red, Uint8 green, Uint8 blue )
 {
-	//Modulate texture
+	//Modulate texture rgb
 	SDL_SetTextureColorMod( mTexture, red, green, blue );
+}
+
+void LTexture::setBlendMode( SDL_BlendMode blending )
+{
+	//Set blending function
+	SDL_SetTextureBlendMode( mTexture, blending );
+}
+
+void LTexture::setAlpha( Uint8 alpha )
+{
+	//Modulate texture alpha
+	SDL_SetTextureAlphaMod( mTexture, alpha );
 }
 
 void LTexture::render( int x, int y, SDL_Rect* clip )
@@ -183,13 +203,13 @@ bool init()
 		gWindow = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
 		if( gWindow == NULL )
 		{
-			printf( "Window could not be created! %s\n", SDL_GetError() );
+			printf( "Window could not be created! SDL Error: %s\n", SDL_GetError() );
 			success = false;
 		}
 		else
 		{
-			//Create renderer for window
-			gRenderer = SDL_CreateRenderer( gWindow, -1, SDL_RENDERER_ACCELERATED );
+			//Create vsynced renderer for window
+			gRenderer = SDL_CreateRenderer( gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC );
 			if( gRenderer == NULL )
 			{
 				printf( "Renderer could not be created! SDL Error: %s\n", SDL_GetError() );
@@ -219,11 +239,34 @@ bool loadMedia()
 	//Loading success flag
 	bool success = true;
 
-	//Load texture
-	if( !gModulatedTexture.loadFromFile( "colors.png" ) )
+	//Load sprite sheet texture
+	if( !gSpriteSheetTexture.loadFromFile( "foo.png" ) )
 	{
-		printf( "Failed to load colors texture!\n" );
+		printf( "Failed to load walking animation texture!\n" );
 		success = false;
+	}
+	else
+	{
+		//Set sprite clips
+		gSpriteClips[ 0 ].x =   0;
+		gSpriteClips[ 0 ].y =   0;
+		gSpriteClips[ 0 ].w =  64;
+		gSpriteClips[ 0 ].h = 205;
+
+		gSpriteClips[ 1 ].x =  64;
+		gSpriteClips[ 1 ].y =   0;
+		gSpriteClips[ 1 ].w =  64;
+		gSpriteClips[ 1 ].h = 205;
+
+		gSpriteClips[ 2 ].x = 128;
+		gSpriteClips[ 2 ].y =   0;
+		gSpriteClips[ 2 ].w =  64;
+		gSpriteClips[ 2 ].h = 205;
+
+		gSpriteClips[ 3 ].x = 192;
+		gSpriteClips[ 3 ].y =   0;
+		gSpriteClips[ 3 ].w =  64;
+		gSpriteClips[ 3 ].h = 205;
 	}
 
 	return success;
@@ -232,7 +275,7 @@ bool loadMedia()
 void close()
 {
 	//Free loaded images
-	gModulatedTexture.free();
+	gSpriteSheetTexture.free();
 
 	//Destroy window
 	SDL_DestroyRenderer( gRenderer );
@@ -267,10 +310,8 @@ int main( int argc, char* args[] )
 			//Event handler
 			SDL_Event e;
 
-			//Modulation components
-			Uint8 r = 255;
-			Uint8 g = 255;
-			Uint8 b = 255;
+			//Current animation frame
+			int frame = 0;
 
 			//While application is running
 			while( !quit )
@@ -283,54 +324,27 @@ int main( int argc, char* args[] )
 					{
 						quit = true;
 					}
-					//On keypress change rgb values
-					else if( e.type == SDL_KEYDOWN )
-					{
-						switch( e.key.keysym.sym )
-						{
-							//Increase red
-							case SDLK_q:
-							r += 32;
-							break;
-
-							//Increase green
-							case SDLK_w:
-							g += 32;
-							break;
-
-							//Increase blue
-							case SDLK_e:
-							b += 32;
-							break;
-
-							//Decrease red
-							case SDLK_a:
-							r -= 32;
-							break;
-
-							//Decrease green
-							case SDLK_s:
-							g -= 32;
-							break;
-
-							//Decrease blue
-							case SDLK_d:
-							b -= 32;
-							break;
-						}
-					}
 				}
 
 				//Clear screen
 				SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
 				SDL_RenderClear( gRenderer );
 
-				//Modulate and render texture
-				gModulatedTexture.setColor( r, g, b );
-				gModulatedTexture.render( 0, 0 );
+				//Render current frame
+				SDL_Rect* currentClip = &gSpriteClips[ frame / 4 ];
+				gSpriteSheetTexture.render( ( SCREEN_WIDTH - currentClip->w ) / 2, ( SCREEN_HEIGHT - currentClip->h ) / 2, currentClip );
 
 				//Update screen
 				SDL_RenderPresent( gRenderer );
+
+				//Go to next frame
+				++frame;
+
+				//Cycle animation
+				if( frame / 4 >= WALKING_ANIMATION_FRAMES )
+				{
+					frame = 0;
+				}
 			}
 		}
 	}
