@@ -10,7 +10,8 @@ const int MAN_CLIPS[][4] = {
     {  0, 0, 64, 205},
     { 64, 0, 64, 205},
     {128, 0, 64, 205},
-    {192, 0, 64, 205}};
+    {192, 0, 64, 205}
+};
 const int MAN_FRAMES = sizeof(MAN_CLIPS)/sizeof(int)/4;
 
 const char*  BIRD_SPRITE_FILE = "83127-sprite-area-line-animated-bird-film.png";

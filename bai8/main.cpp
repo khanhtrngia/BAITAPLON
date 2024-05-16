@@ -18,6 +18,7 @@ int main(int argc, char *argv[])
     Sprite bird;
     SDL_Texture* birdTexture = graphics.loadTexture(BIRD_SPRITE_FILE);
     bird.init(birdTexture, BIRD_FRAMES, BIRD_CLIPS);
+    cerr << BIRD_FRAMES * 4;
 
     bool quit = false;
     SDL_Event e;
