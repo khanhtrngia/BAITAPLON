@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
         graphics.render(background);
 
         graphics.presentScene();
-        SDL_Delay(100);
+        SDL_Delay(1);
     }
 
     SDL_DestroyTexture( background.texture );

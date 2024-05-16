@@ -6,19 +6,29 @@
 #include "defs.h"
 #include <vector>
 
-struct ScrollingBackground {
+struct Sprite {
     SDL_Texture* texture;
-    int scrollingOffset = 0;
-    int width, height;
+    std::vector<SDL_Rect> clips;
+    int currentFrame = 0;
 
-    void setTexture(SDL_Texture* _texture) {
+    void init(SDL_Texture* _texture, int frames, const int _clips [][4]) {
         texture = _texture;
-        SDL_QueryTexture(texture, NULL, NULL, &width, &height);
+
+        SDL_Rect clip;
+        for (int i = 0; i < frames; i++) {
+            clip.x = _clips[i][0];
+            clip.y = _clips[i][1];
+            clip.w = _clips[i][2];
+            clip.h = _clips[i][3];
+            clips.push_back(clip);
+        }
+    }
+    void tick() {
+        currentFrame = (currentFrame + 1) % clips.size();
     }
 
-    void scroll(int distance) {
-        scrollingOffset += distance;
-        if( scrollingOffset > height ) { scrollingOffset = 0; }
+    const SDL_Rect* getCurrentClip() const {
+        return &(clips[currentFrame]);
     }
 };
 
@@ -109,9 +119,10 @@ struct Graphics {
         SDL_Quit();
     }
 
-    void render(const ScrollingBackground& background) {
-        renderTexture(background.texture, 0, background.scrollingOffset);
-        renderTexture(background.texture, 0, background.scrollingOffset - background.height);
+    void render(int x, int y, const Sprite& sprite) {
+        const SDL_Rect* clip = sprite.getCurrentClip();
+        SDL_Rect renderQuad = {x, y, clip->w, clip->h};
+        SDL_RenderCopy(renderer, sprite.texture, clip, &renderQuad);
     }
 };
 

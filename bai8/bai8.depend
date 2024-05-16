@@ -1,0 +1,16 @@
+# depslib dependency file v1.0
+1715841977 source:c:\users\khanh\documents\github\baitaplon\bai8\main.cpp
+	<iostream>
+	<SDL.h>
+	<SDL_image.h>
+	"graphics.h"
+	"defs.h"
+
+1715841977 c:\users\khanh\documents\github\baitaplon\bai8\graphics.h
+	<SDL.h>
+	<SDL_image.h>
+	"defs.h"
+	<vector>
+
+1715842055 c:\users\khanh\documents\github\baitaplon\bai8\defs.h
+
