@@ -18,7 +18,6 @@ int main(int argc, char *argv[])
     Sprite bird;
     SDL_Texture* birdTexture = graphics.loadTexture(BIRD_SPRITE_FILE);
     bird.init(birdTexture, BIRD_FRAMES, BIRD_CLIPS);
-    cerr << BIRD_FRAMES * 4;
 
     bool quit = false;
     SDL_Event e;
@@ -26,13 +25,14 @@ int main(int argc, char *argv[])
         while( SDL_PollEvent( &e ) != 0 ) {
             if( e.type == SDL_QUIT ) quit = true;
         }
-        man.tick(); bird.tick();
+
 
         graphics.prepareScene();
         graphics.render(100, 100, man);
-        graphics.render(150, 100, bird);
+        graphics.render(0, SCREEN_HEIGHT/2, bird);
         graphics.presentScene();
         SDL_Delay(100);
+        man.tick(); bird.tick();
     }
 
 	SDL_DestroyTexture( manTexture ); manTexture = nullptr;

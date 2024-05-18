@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1715848972 source:c:\users\khanh\documents\github\baitaplon\bai8\main.cpp
+1716009322 source:c:\users\khanh\documents\github\baitaplon\bai8\main.cpp
 	<iostream>
 	<SDL.h>
 	<SDL_image.h>
@@ -12,5 +12,5 @@
 	"defs.h"
 	<vector>
 
-1715848927 c:\users\khanh\documents\github\baitaplon\bai8\defs.h
+1716009342 c:\users\khanh\documents\github\baitaplon\bai8\defs.h
 
