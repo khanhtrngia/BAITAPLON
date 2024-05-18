@@ -17,8 +17,11 @@ struct Tictactoe {
     void move(int row, int column) {
         if (row >= 0 && row < BOARD_SIZE && column >= 0 && column < BOARD_SIZE)
         {
-            board[row][column] = nextMove;
-            nextMove = (nextMove == O_CELL) ? X_CELL : O_CELL;
+            if(board[row][column]== EMPTY_CELL )
+            {
+                board[row][column] = nextMove;
+                nextMove = (nextMove == O_CELL) ? X_CELL : O_CELL;
+            }
         }
     }
 };

@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
                  graphics.render(game);
                  break;
         }
-        SDL_Delay(100);
+        SDL_Delay(10);
     }
 
     graphics.quit();
