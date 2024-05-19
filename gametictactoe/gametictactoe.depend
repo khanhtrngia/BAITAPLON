@@ -1,19 +1,21 @@
 # depslib dependency file v1.0
-1716011144 source:c:\users\khanh\documents\github\baitaplon\gametictactoe\main.cpp
+1716121739 source:c:\users\khanh\documents\github\baitaplon\gametictactoe\main.cpp
 	<iostream>
 	<SDL.h>
 	<SDL_image.h>
+	<SDL_image.h>
+	<SDL_mixer.h>
 	"graphics.h"
 	"defs.h"
 	"logic.h"
 
-1716012479 c:\users\khanh\documents\github\baitaplon\gametictactoe\graphics.h
+1716116772 c:\users\khanh\documents\github\baitaplon\gametictactoe\graphics.h
 	<SDL.h>
 	<SDL_image.h>
 	"defs.h"
 	"logic.h"
 
-1716012662 c:\users\khanh\documents\github\baitaplon\gametictactoe\defs.h
+1716120154 c:\users\khanh\documents\github\baitaplon\gametictactoe\defs.h
 
-1716013047 c:\users\khanh\documents\github\baitaplon\gametictactoe\logic.h
+1716121021 c:\users\khanh\documents\github\baitaplon\gametictactoe\logic.h
 

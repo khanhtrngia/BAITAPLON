@@ -9,11 +9,17 @@
 struct Graphics {
     SDL_Renderer *renderer;
 	SDL_Window *window;
+	Mix_Music *gMusic = NULL;
+    Mix_Chunk *gClick = NULL;
+
+
 
     SDL_Texture *cellEmpty, *cellX, *cellO;
 
     void init() {
         initSDL();
+        gMusic = Mix_LoadMUS( "music.mp3" );
+        gClick = Mix_LoadWAV( "mouse-click.mp3" );
         cellEmpty = loadTexture("cell_empty.png");
         cellX = loadTexture("cell_x.png");
         cellO = loadTexture("cell_o.png");
@@ -63,6 +69,10 @@ struct Graphics {
 
         SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
         SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+        if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 )
+				{
+					printf( "SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError() );
+				}
     }
 
 	void prepareScene(SDL_Texture * background)
@@ -124,6 +134,10 @@ struct Graphics {
         cellX = nullptr;
         SDL_DestroyTexture(cellO);
         cellO = nullptr;
+        Mix_FreeMusic( gMusic );
+        gMusic = NULL;
+        Mix_FreeChunk( gClick );
+        gClick = NULL;
 
         IMG_Quit();
 
