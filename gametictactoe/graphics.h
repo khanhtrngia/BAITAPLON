@@ -16,7 +16,8 @@ struct Graphics {
 
     SDL_Texture *cellEmpty, *cellX, *cellO;
 
-    void init() {
+    void init()
+    {
         initSDL();
         gMusic = Mix_LoadMUS( "music.mp3" );
         gClick = Mix_LoadWAV( "mouse-click.mp3" );
