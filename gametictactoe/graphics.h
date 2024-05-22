@@ -76,11 +76,11 @@ struct Graphics {
 				}
     }
 
-	void prepareScene(SDL_Texture * background)
-    {
-        SDL_RenderClear(renderer);
-        SDL_RenderCopy( renderer, background, NULL, NULL);
-    }
+//	void prepareScene(SDL_Texture * background)
+//    {
+//        SDL_RenderClear(renderer);
+//        SDL_RenderCopy( renderer, background, NULL, NULL);
+//    }
 
 //    void prepareScene()
 //    {
