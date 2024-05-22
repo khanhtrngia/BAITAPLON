@@ -11,20 +11,25 @@ struct Graphics {
 	SDL_Window *window;
 	Mix_Music *gMusic = NULL;
     Mix_Chunk *gClick = NULL;
+    Mix_Chunk *gEnd = NULL;
 
 
 
-    SDL_Texture *background, *cellEmpty, *cellX, *cellO;
+    SDL_Texture *background, *xwin, *owin, *tied, *cellEmpty, *cellX, *cellO;
 
     void init()
     {
         initSDL();
         gMusic = Mix_LoadMUS( "music.mp3" );
         gClick = Mix_LoadWAV( "mouse-click.mp3" );
+        gEnd = Mix_LoadWAV( "end.mp3" );
         background = loadTexture("bgr.jpg");
         cellEmpty = loadTexture("cell_empty.png");
         cellX = loadTexture("cell_x.png");
         cellO = loadTexture("cell_o.png");
+        xwin = loadTexture("xwin.jpg");
+        owin = loadTexture("owin.jpg");
+        tied = loadTexture("tied.jpg");
     }
 
     void render(const Tictactoe& game) {
@@ -132,6 +137,12 @@ struct Graphics {
     {
         SDL_DestroyTexture(background);
         background = nullptr;
+        SDL_DestroyTexture(owin);
+        owin = nullptr;
+        SDL_DestroyTexture(xwin);
+        xwin = nullptr;
+        SDL_DestroyTexture(tied);
+        tied = nullptr;
         SDL_DestroyTexture(cellEmpty);
         cellEmpty = nullptr;
         SDL_DestroyTexture(cellX);
@@ -142,6 +153,8 @@ struct Graphics {
         gMusic = NULL;
         Mix_FreeChunk( gClick );
         gClick = NULL;
+        Mix_FreeChunk(gEnd);
+        gEnd = NULL;
 
         IMG_Quit();
 

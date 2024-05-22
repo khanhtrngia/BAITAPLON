@@ -11,12 +11,12 @@ using namespace std;
 
 void waitUntilKeyPressed()
 {
-    SDL_Event e;
+    SDL_Event event;
     while (true) {
-        if ( SDL_PollEvent(&e) != 0 &&
-             (e.type == SDL_KEYDOWN || e.type == SDL_QUIT) )
+        if ( SDL_PollEvent(&event) != 0 &&
+             (event.type == SDL_KEYDOWN || event.type == SDL_QUIT) )
             return;
-        SDL_Delay(100);
+        SDL_Delay(10);
     }
 }
 
@@ -27,7 +27,57 @@ void processClick(int x, int y, Tictactoe& game) {
     int clickedRow = (y - BOARD_Y) / CELL_SIZE;
     game.move(clickedRow, clickedCol);
     }
+}
 
+    bool checkWin(char player, Tictactoe& game) {
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            if (game.board[i][0] == player && game.board[i][1] == player && game.board[i][2] == player)
+                return true;
+            if (game.board[0][i] == player && game.board[1][i] == player && game.board[2][i] == player)
+                return true;
+        }
+        if (game.board[0][0] == player && game.board[1][1] == player && game.board[2][2] == player)
+            return true;
+        if (game.board[0][2] == player && game.board[1][1] == player && game.board[2][0] == player)
+            return true;
+        return false;
+    }
+
+    bool isBoardFull(Tictactoe& game) {
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            for (int j = 0; j < BOARD_SIZE; j++) {
+                if (game.board[i][j] == EMPTY_CELL) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+void checkGameState(Tictactoe& game, SDL_Renderer* renderer, Graphics& graphic) {
+    if (checkWin(X_CELL, game)) {
+        SDL_RenderCopy(renderer, graphic.xwin, NULL, NULL);
+        graphic.presentScene();
+        Mix_PlayChannel( -1, graphic.gEnd, 0 );
+        waitUntilKeyPressed();
+        game.init();
+        graphic.render(game);
+    }
+    if (checkWin(O_CELL, game)) {
+        SDL_RenderCopy(renderer, graphic.owin, NULL, NULL);
+        graphic.presentScene();
+        Mix_PlayChannel( -1, graphic.gEnd, 0 );
+        waitUntilKeyPressed();
+        game.init();
+        graphic.render(game);
+    }
+    if (isBoardFull(game)) {
+        SDL_RenderCopy(renderer, graphic.tied, NULL, NULL);
+        graphic.presentScene();
+        Mix_PlayChannel( -1, graphic.gEnd, 0 );
+        waitUntilKeyPressed();
+        game.init();
+        graphic.render(game);
+    }
 }
 
 int main(int argc, char *argv[])
@@ -59,6 +109,7 @@ int main(int argc, char *argv[])
                  }
                  processClick(x, y, game);
                  graphics.render(game);
+                 checkGameState(game, graphics.renderer, graphics);
                  break;
         }
         switch( event.key.keysym.sym )
@@ -82,12 +133,11 @@ int main(int argc, char *argv[])
                     break;
 
             case SDLK_s:
-            Mix_HaltMusic();
-            break;
+                Mix_HaltMusic();
+                break;
         }
         SDL_Delay(10);
     }
-
     graphics.quit();
     return 0;
 }

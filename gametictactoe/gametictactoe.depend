@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1716121739 source:c:\users\khanh\documents\github\baitaplon\gametictactoe\main.cpp
+1716412439 source:c:\users\khanh\documents\github\baitaplon\gametictactoe\main.cpp
 	<iostream>
 	<SDL.h>
 	<SDL_image.h>
@@ -9,7 +9,7 @@
 	"defs.h"
 	"logic.h"
 
-1716359624 c:\users\khanh\documents\github\baitaplon\gametictactoe\graphics.h
+1716411997 c:\users\khanh\documents\github\baitaplon\gametictactoe\graphics.h
 	<SDL.h>
 	<SDL_image.h>
 	"defs.h"
@@ -17,5 +17,6 @@
 
 1716358222 c:\users\khanh\documents\github\baitaplon\gametictactoe\defs.h
 
-1716121021 c:\users\khanh\documents\github\baitaplon\gametictactoe\logic.h
+1716407111 c:\users\khanh\documents\github\baitaplon\gametictactoe\logic.h
+	"graphics.h"
 

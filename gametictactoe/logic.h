@@ -1,9 +1,11 @@
+#include "graphics.h"
 #ifndef _LOGIC__H
 #define _LOGIC__H
 
 #define EMPTY_CELL ' '
 #define O_CELL 'o'
 #define X_CELL 'x'
+
 
 struct Tictactoe {
     char board[BOARD_SIZE][BOARD_SIZE];
