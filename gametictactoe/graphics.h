@@ -14,13 +14,14 @@ struct Graphics {
 
 
 
-    SDL_Texture *cellEmpty, *cellX, *cellO;
+    SDL_Texture *background, *cellEmpty, *cellX, *cellO;
 
     void init()
     {
         initSDL();
         gMusic = Mix_LoadMUS( "music.mp3" );
         gClick = Mix_LoadWAV( "mouse-click.mp3" );
+        background = loadTexture("bgr.jpg");
         cellEmpty = loadTexture("cell_empty.png");
         cellX = loadTexture("cell_x.png");
         cellO = loadTexture("cell_o.png");
@@ -28,7 +29,7 @@ struct Graphics {
 
     void render(const Tictactoe& game) {
         //prepareScene();
-
+        SDL_RenderCopy( renderer, background, NULL, NULL);
         for (int i = 0; i < BOARD_SIZE; i++)
             for (int j = 0; j < BOARD_SIZE; j++) {
                 int x = BOARD_X + j * CELL_SIZE;
@@ -115,20 +116,22 @@ struct Graphics {
         SDL_RenderCopy(renderer, texture, NULL, &dest);
     }
 
-    void blitRect(SDL_Texture *texture, SDL_Rect *src, int x, int y)
-    {
-        SDL_Rect dest;
-
-        dest.x = x;
-        dest.y = y;
-        dest.w = src->w;
-        dest.h = src->h;
-
-        SDL_RenderCopy(renderer, texture, src, &dest);
-    }
+//    void blitRect(SDL_Texture *texture, SDL_Rect *src, int x, int y)
+//    {
+//        SDL_Rect dest;
+//
+//        dest.x = x;
+//        dest.y = y;
+//        dest.w = src->w;
+//        dest.h = src->h;
+//
+//        SDL_RenderCopy(renderer, texture, src, &dest);
+//    }
 
     void quit()
     {
+        SDL_DestroyTexture(background);
+        background = nullptr;
         SDL_DestroyTexture(cellEmpty);
         cellEmpty = nullptr;
         SDL_DestroyTexture(cellX);
